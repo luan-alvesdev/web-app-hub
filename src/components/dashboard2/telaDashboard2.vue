@@ -1,58 +1,75 @@
 <script setup>
 import router from '@/router'
-import { reactive, ref } from 'vue'
+import { setCredencials } from '@/shared/util'
+import { ref } from 'vue'
 
-const formData = reactive({
-  link: '',
-  senha: '',
-})
+// Definindo os dados utilizando ref
+const formDataLink = ref('')
+const formDataSenha = ref('')
 
 const submittedData = ref([])
 
-const submitForm = () => {
-  // Adiciona uma cópia dos dados do formulário ao array de objetos
-  submittedData.value.push(JSON.parse(JSON.stringify(formData)))
+const formDataLinkRules = [
+  value => !!value || 'Preencha o campo com um link válido.',
+]
 
-  // Limpa o formulário após submissão
-  formData.link = ''
-  formData.senha = ''
-  getLastSubmitted()
+const formDataSenhaRules = [
+  value => value.length >= 6 || 'A senha deve ter pelo menos 6 caracteres.',
+]
+
+const formRef = ref(null)
+
+const submitForm = () => {
+  const formData = {
+    link: formDataLink.value,
+    senha: formDataSenha.value,
+  }
+
+  console.log('Dados do formulário:', formData)
+
+  // Adiciona uma cópia dos dados do formulário ao array de objetos
+  submittedData.value.push(formData)
+  setCredencials(formData)
   router.push('/dashboards')
 }
 
-const getLastSubmitted = () => {
-  if (submittedData.value.length > 0) {
-    const lastEntry = submittedData.value[submittedData.value.length - 1]
-    localStorage.setItem('lastSubmittedData', JSON.stringify(lastEntry))
-
-    return lastEntry
+const handleSubmit = async () => {
+  const validacao = await formRef.value?.validate()
+  console.log('Resultado da validação:', validacao.valid)
+  if (validacao.valid) {
+    submitForm()
   }
-  return null
 }
 </script>
 
 <template>
   <v-form
-    @submit.prevent="submitForm"
+    ref="formRef"
+    @submit.prevent="handleSubmit"
     class="d-flex flex-column fill-height justify-center align-center text-white text-center"
     theme="dark"
     with-background
   >
     <v-col cols="12" sm="3">
       <v-text-field
-        v-model="formData.link"
+        :model-value="formDataLink"
+        v-model="formDataLink"
+        :rules="formDataLinkRules"
         label="Insira seu link aqui"
         name="link"
+        required
       ></v-text-field>
       <v-text-field
-        v-model="formData.senha"
+        :model-value="formDataSenha"
+        v-model="formDataSenha"
+        :rules="formDataSenhaRules"
         :type="'password'"
-        hint="At least 8 characters"
         label="Digite sua senha"
         name="senha"
+        required
         counter
       ></v-text-field>
-      <v-btn type="submit" variant="text"> Gravar </v-btn>
+      <v-btn type="submit" variant="text" block> Gravar </v-btn>
     </v-col>
   </v-form>
 </template>
