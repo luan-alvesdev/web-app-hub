@@ -5,13 +5,16 @@ import { ref, onMounted } from 'vue'
 const pegaCredenciais = ref(null)
 
 onMounted(() => {
-  console.log('Página carregada!')
   pegaCredenciais.value = getCredencials()
 })
 </script>
 
 <template>
-  <h1>{{ pegaCredenciais?.link }} {{ pegaCredenciais?.senha }}</h1>
+  <h1>teste</h1>
 </template>
 
-<style scoped></style>
+<style scoped>
+h2 {
+  padding: 2.5rem 6rem;
+}
+</style>

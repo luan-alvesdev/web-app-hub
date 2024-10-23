@@ -1,17 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import telaDashboard from '../components/dashboard/telaDashboard.vue'
-import TelaDashboard2 from '@/components/dashboard2/telaDashboard2.vue'
+import TelaDashboard from '@/components/dashboard/telaDashboard.vue'
+import TelaLogin from '@/components/telaLogin/telaLogin.vue'
 
 const routes = [
   {
     path: '/',
-    name: '/telaDashboard2',
-    component: TelaDashboard2,
+    name: 'telaLogin',
+    component: TelaLogin,
   },
   {
     path: '/dashboards',
     name: 'telaDashboard',
-    component: telaDashboard,
+    component: TelaDashboard,
   },
 ]
 

@@ -32,7 +32,6 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
-
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,4 +54,8 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+}
+
+ul {
+  list-style: none;
 }
