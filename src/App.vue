@@ -18,14 +18,20 @@ onMounted(() => {
 <template>
   <MenuSuperior v-if="authStore.isLoggedIn"></MenuSuperior>
   <!-- MenuLateral aqui  -->
-  <div class="container">
+  <div class="container-menu-superior">
     <MenuLateral v-if="authStore.isLoggedIn"></MenuLateral>
-    <router-view></router-view>
+    <div class="container-rotas">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.container {
-  display: flex;
+.container-menu-superior {
+  width: 98vw;
+}
+
+.container-rotas {
+  padding: 15px;
 }
 </style>

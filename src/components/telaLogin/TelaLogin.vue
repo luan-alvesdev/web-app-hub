@@ -28,7 +28,6 @@ const submitForm = () => {
     senha: formDataSenha.value,
   }
 
-
   const loginService = new LoginService(formDataLink.value, formDataSenha.value)
   loginService.verificarStatusApi().then(() => {
     // Adiciona uma cópia dos dados do formulário ao array de objetos

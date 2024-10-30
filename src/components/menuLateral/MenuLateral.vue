@@ -1,4 +1,8 @@
 <script setup>
+import { useMenuStore } from '@/stores/menu'
+
+const store = useMenuStore()
+
 </script>
 
 <template>
@@ -6,25 +10,25 @@
         <!-- Sidebar -->
         <div id="sidebar">
             <ul class="nav">
-                <li>
-                    <a href="#">
+                <li :class="store.isSelected === 0 ? 'selecionado' : ''">
+                    <router-link to="/dashboard" @click="store.atualizaMenu(0)">
                         <i class="zmdi zmdi-view-dashboard"></i> Dashboard
-                    </a>
+                    </router-link>
                 </li>
-                <li>
-                    <a href="#">
+                <li :class="store.isSelected === 1 ? 'selecionado' : ''">
+                    <router-link to="/registro" @click="store.atualizaMenu(1)">
                         <i class="zmdi zmdi-link"></i> Registro de Serviços
-                    </a>
+                    </router-link>
                 </li>
-                <li>
-                    <a href="#">
+                <li :class="store.isSelected === 2 ? 'selecionado' : ''">
+                    <router-link to="/gestao" @click="store.atualizaMenu(2)">
                         <i class="zmdi zmdi-widgets"></i> Gestão de Serviços
-                    </a>
+                    </router-link>
                 </li>
-                <li>
-                    <a href="#">
+                <li :class="store.isSelected === 3 ? 'selecionado' : ''">
+                    <router-link to="/operacoes" @click.prevent="store.atualizaMenu(3)">
                         <i class="zmdi zmdi-calendar"></i> Operações Técnicas
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -33,12 +37,6 @@
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
-
-body {
-    overflow-x: hidden;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-}
 
 #viewport {
     padding-left: 250px;

@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import TelaDashboard from '@/components/dashboard/TelaDashboard.vue'
 import TelaLogin from '@/components/telaLogin/TelaLogin.vue'
+import RegistroDeServicos from '@/components/registroDeServicos/RegistroDeServicos.vue'
+import GestaoDeServicos from '@/components/gestaoDeServicos/GestaoDeServicos.vue'
+import OperacoesTecnicas from '@/components/operacoesTecnicas/OperacoesTecnicas.vue'
 
 const routes = [
   {
@@ -9,9 +12,24 @@ const routes = [
     component: TelaLogin,
   },
   {
-    path: '/dashboards',
+    path: '/dashboard',
     name: 'telaDashboard',
     component: TelaDashboard,
+  },
+  {
+    path: '/registro',
+    name: 'registroDeServicos',
+    component: RegistroDeServicos,
+  },
+  {
+    path: '/gestao',
+    name: 'gestaoDeServicos',
+    component: GestaoDeServicos,
+  },
+  {
+    path: '/operacoes',
+    name: 'operacoesTecnicas',
+    component: OperacoesTecnicas,
   },
 ]
 
