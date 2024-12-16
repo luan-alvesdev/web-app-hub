@@ -1,8 +1,15 @@
 <script setup>
+import { getCredencials } from '@/shared/util';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import axios from 'axios';
 import { reactive } from 'vue'
 
+const credenciais = getCredencials();
+const header = {
+    'credencial': credenciais.senha,
+    'Content-Type': 'application/json',
+}
 
 const initialState = {
     nomeServico: '',
@@ -41,11 +48,52 @@ function clear() {
     }
 }
 
+async function sendData(obj) {
+
+    try {
+        // Adiciona serviço do docker-compose
+        await axios.put('http://' + credenciais.link + ':3000/api/compose/addService', {
+            nomeServico: obj.nomeServico,
+            tag: obj.tag,
+            image: obj.image,
+            replicas: obj.replicas,
+            memory: obj.memory,
+            ports: [
+                `${obj.portaExterna}:${obj.portaInterna}`,
+            ],
+            envs: []
+        },
+            {
+                headers: header,
+            });
+
+        // Adiciona serviço no Nginx.config
+        await axios.put('http://' + credenciais.link + ':3000/api/nginx/addService', {
+            nomeServico: obj.nomeServico,
+            dominio: obj.dominio,
+            porta: obj.portaExterna,
+        },
+            {
+                headers: header,
+            });
+
+        // Atualiza serviços no cluster 
+        await axios.post('http://' + credenciais.link + ':3000/api/docker/initCluster', {},
+            {
+                headers: header,
+            });
+
+
+    } catch (err) {
+        state.error = err.response?.data?.message || 'Erro ao enviar os dados.';
+        console.error(err);
+    }
+}
+
 function submitForm() {
     v$.value.$validate().then((isValid) => {
         if (isValid) {
-            // Exibe os valores no console
-            console.log('Formulário válido:', { ...state });
+            sendData(state)
         } else {
             console.error('Erro na validação:', v$.value);
         }
