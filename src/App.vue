@@ -33,5 +33,6 @@ onMounted(() => {
 
 .container-rotas {
   padding: 15px;
+  padding-left: 250px;
 }
 </style>
